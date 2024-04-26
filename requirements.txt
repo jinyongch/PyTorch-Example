@@ -1,2 +1,1 @@
-torch
-torchvision
+clearml==1.12.0
