@@ -30,8 +30,8 @@ CUDA_VISIBLE_DEVICES=1 python main.py
 2. Global `rank` and `world_size` for Dataset Partitioning
 
     ```python
-    world_size = int(os.environ['WORLD_SIZE'])
-    rank = int(os.environ['RANK']) 
+    world_size = int(os.environ["WORLD_SIZE"])
+    rank = int(os.environ["RANK"]) 
 
     train_sampler = distributed.DistributedSampler(train_dataset, num_replicas=world_size, rank=rank)
     train_loader = DataLoader(dataset=train_dataset, batch_size=64, sampler=train_sampler)
@@ -40,8 +40,8 @@ CUDA_VISIBLE_DEVICES=1 python main.py
 3. `local_rank` for Model Parallelization and Gradient Synchronization Across GPUs
 
     ```python
-    local_rank = int(os.environ['LOCAL_RANK'])
-    device = torch.device(f'cuda:{local_rank}')
+    local_rank = int(os.environ["LOCAL_RANK"])
+    device = torch.device(f"cuda:{local_rank}")
 
     model = Net().to(device)
     model = DDP(model, device_ids=[local_rank])

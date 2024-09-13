@@ -1,0 +1,21 @@
+services:
+  pytorch:
+    image: nvcr.io/nvidia/pytorch:23.04-py3
+    container_name: pytorch
+    hostname: ${HOSTNAME}
+    privileged: true
+    ipc: host
+    network_mode: host
+    runtime: nvidia
+    restart: always
+    environment:
+      - HOST_USER=${USER}
+      - HOST_UID=${UID}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,video
+    volumes:
+      - ./config:/config
+      - /shares:/shares
+      - /scratch:/scratch
+      - ${HOME}:${HOME}
+    command: bash -c "bash /config/system_install.sh && bash /config/python_install.sh && echo 'Completed...' && tail -f /dev/null"
