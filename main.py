@@ -1,12 +1,23 @@
 import argparse
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from torchvision import datasets, transforms
+from clearml import Task
 from torch.optim.lr_scheduler import StepLR
+from torchvision import datasets, transforms
 
 
+class CustomClearML():
+    def __init__(self, project_name, task_name):
+        self.task = Task.init(project_name, task_name)
+        self.logger = self.task.get_logger()
+
+    def __call__(self, title, series, value, iteration):
+        self.logger.report_scalar(title, series, value, iteration)
+     
+   
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -95,6 +106,9 @@ def main():
     parser.add_argument('--save-model', action='store_true', default=False,
                         help='For Saving the current Model')
     args = parser.parse_args()
+    
+    clearml_logger = CustomClearML('MNIST', 'net')
+        
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     use_mps = not args.no_mps and torch.backends.mps.is_available()
 
