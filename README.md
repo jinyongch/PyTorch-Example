@@ -4,6 +4,7 @@
 git clone git@github.com:jinyongch/MNIST.git
 
 conda create -n mnist python=3.8 -y
+conda activate mnist
 conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cuda=11.7 -c pytorch -c nvidia -y
 pip install -r requirements.txt
 
